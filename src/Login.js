@@ -6,7 +6,7 @@ import axios from "axios";
 const Login = ({ onLogin }) => {
     const handleGoogleLogin = async (credentialResponse) => {
         try {
-            const response = await axios.post("http://localhost:9000/api/google-login", {
+            const response = await axios.post("https://google-auth-backend-et54.onrender.com/api/google-login", {
                 token: credentialResponse.credential,
             });
 

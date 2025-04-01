@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Login from "./Login";
+import Dashboard from "./Dashboard";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [token, setToken] = useState(null);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const savedToken = localStorage.getItem("token");
+        const savedUser = localStorage.getItem("user");
+
+        if (savedToken && savedUser) {
+            setToken(savedToken);
+            setUser(JSON.parse(savedUser));
+        }
+    }, []);
+
+    return (
+        <>
+            {token ? (
+                <Dashboard
+                    user={user}
+                    onLogout={() => {
+                        setToken(null);
+                        setUser(null);
+                    }}
+                />
+            ) : (
+                <Login
+                    onLogin={(token, user) => {
+                        setToken(token);
+                        setUser(user);
+                    }}
+                />
+            )}
+        </>
+    );
 }
 
 export default App;
